@@ -1,6 +1,0 @@
-----
-
-- name : First Playbook
-  host: all
-  tasks:
-  - name: First Task

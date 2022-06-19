@@ -1,0 +1,26 @@
+---
+
+
+# for windows use 'win_service' instead of 'service'
+- name: Service Module Playbook
+  hosts: localhost
+  tasks:
+  - name: Start service httpd, if not running
+    service:
+      name: httpd
+      state: started
+
+  - name: Stop service httpd, if running
+    service:
+      name: httpd
+      state: stopped
+
+  - name: Restart service httpd, in all cases
+    service:
+      name: httpd
+      state: restarted
+
+  - name: Reload service httpd, in all cases
+    service:
+      name: httpd
+      state: reloaded
