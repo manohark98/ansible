@@ -1,0 +1,42 @@
+---
+
+- name: Fetch Modules Playbook
+  hosts: localhost
+  tasks:
+  - name: fetch nginx access log
+    fetch:
+      src: /var/log/nginx/access.log
+      dest: fetched
+  
+  - name: fetch nginx access log (absolute)
+    fetch:
+      src: /var/log/nginx/access.log
+      dest: /path/to/ansible/fetched/absolute
+
+  - name: fetch nginx access log (relative)
+    fetch:
+      src: /var/log/nginx/access.log
+      dest: fetched/relative
+
+#If the /var/log/nginx is not important to you, you can remove this from the fetched file by using the flat parameter.
+# This will also remove the {{ inventory_hostname }} from the fetched file
+  - name: fetch nginx access log
+    fetch:
+      src: /var/log/nginx/access.log
+      dest: fetched/{{ inventory_hostname }}/
+      flat: true
+
+  - name: fetch nginx access log
+    fetch:
+      src: /var/log/nginx/access.log
+      dest: fetched/access.log.{{ inventory_hostname }}
+      flat: true
+
+  - name: fetch nginx access and error log(recursively)
+    fetch:
+      src: /var/log/nginx/{{ item }}.log
+      dest: fetched
+    register: fetch_output
+    loop:
+      - access
+      - error
