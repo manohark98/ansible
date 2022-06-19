@@ -1,0 +1,42 @@
+---
+
+- name : Files and Directory Playbook
+  host: localhost
+  tasks:
+  - name: create an empty file if it doesn't exist
+    file:
+      path: $HOME/test_file
+      state: touch
+  - name: delete a file (or symlink) if it exists
+    file:
+      path: $HOME/test_file
+      state: absent
+
+  - name: ensure a directory exists
+    file:
+      path: $HOME/test_directory/inner_test_directory
+      state: directory
+
+  - name: create multiple directories in a loop
+    file:
+      path: "$HOME/test_directory/{{ item }}"
+      state: directory
+    register: file_output
+    loop:
+      - inner_test_directory
+      - another_test_directory/another_inner_directory
+  - debug: var=file_output
+  - name: delete a directory recursively if it exists
+    file:
+      path: $HOME/test_directory
+      state: absent
+  
+  - name: create a symlink if it doesn't exist
+    file:
+      src: $HOME/test_file
+      dest: $HOME/test_directory/inner_test_directory/test_file_symlink
+      state: link
+  - name: delete a symlink if it exists
+    file:
+      path: $HOME/test_directory/inner_test_directory/test_file_symlink
+      state: absent
