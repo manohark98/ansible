@@ -1,6 +1,6 @@
 ---
 
-- name: Apt Modules Playbook
+- name: Apt Module Playbook
   hosts: localhost
   tasks:
   - name: install redis on Debian based distros 

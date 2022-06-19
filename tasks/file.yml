@@ -1,6 +1,6 @@
 ---
 
-- name : Files and Directory Modules Playbook
+- name : Files and Directory Module Playbook
   host: localhost
   tasks:
   - name: create an empty file if it doesn't exist

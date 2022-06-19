@@ -1,6 +1,6 @@
 ---
 
-- name: Fetch Modules Playbook
+- name: Fetch Module Playbook
   hosts: localhost
   tasks:
   - name: fetch nginx access log

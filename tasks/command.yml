@@ -1,0 +1,40 @@
+---
+
+- name: Command Module Playbook
+  hosts: localhost
+  tasks:
+  - name: create a new test file only if it doesn't already exists (using creates)
+    command: touch /tmp/test_file
+    args:
+      creates: /tmp/test_file
+  
+  - name: remove /tmp/test_file only if it already exists (using removes)
+    command: rm /tmp/test_file
+    args:
+      removes: /tmp/test_file
+
+  # using chdir , we can run the command inside the specific directory
+  - name: precompile assets after changing to the app directory
+    command: "rails assets:precompile"
+    args:
+      chdir: /opt/my_app
+  
+  #Use the environment keyword to set environment variables for the command
+  - name: precompile assets with asdf in $PATH and $RAILS_ENV set to production
+    command: "rails assets:precompile"
+    args:
+      chdir: /opt/my_app
+    environment:
+      PATH: "/opt/asdf/bin:/opt/asdf/shims:{{ ansible_env.PATH }}"
+      RAILS_ENV: production
+
+  - name: run commands with asdf in $PATH and $RAILS_ENV set to production
+    command: "{{ item }}"
+    args:
+      chdir: /opt/my_app
+    environment:
+      PATH: "/opt/asdf/bin:/opt/asdf/shims:{{ ansible_env.PATH }}"
+      RAILS_ENV: production
+    loop:
+      - "rake db:migrate"
+      - "rails assets:precompile"

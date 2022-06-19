@@ -1,13 +1,13 @@
 ---
 
-- name: Copy Modules Playbook
+- name: Copy Module Playbook
   hosts: localhost
   tasks:
   - name: copy file from local host to remote host (relative path, ./files/)
     copy:
       src: test_file
       dest: $HOME/test_file
-      
+
   - name: write templated text content into a file on the remote host
     copy:
       dest: $HOME/test_file
