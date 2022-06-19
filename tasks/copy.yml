@@ -1,0 +1,40 @@
+---
+
+- name: Copy Modules Playbook
+  hosts: localhost
+  tasks:
+  - name: copy file from local host to remote host (relative path, ./files/)
+    copy:
+      src: test_file
+      dest: $HOME/test_file
+      
+  - name: write templated text content into a file on the remote host
+    copy:
+      dest: $HOME/test_file
+      content: "Hello, {{ ansible_user }}!"
+  
+  #Copies the entire test_directory
+  - name: copy directory recursively from local to remote (no trailing slash)
+    copy:
+      src: test_directory
+      dest: $HOME
+  #Copies the  directories inside the test_directory recursively
+  - name: copy directory recursively from local to remote (trailing slash)
+    copy:
+      src: test_directory/
+      dest: $HOME
+  
+  - name: copy multiple files from local host to remote host
+    copy:
+      src: test_file
+      dest: "$HOME/test_file_{{ item }}"
+    register: copy_output
+    loop:
+      - 1
+      - 2
+
+  - name: copy file from local host to remote host with backup
+    copy:
+      src: test_file
+      dest: $HOME/test_file
+      backup: true
